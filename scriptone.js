@@ -102,8 +102,9 @@ app.use((err, req, res, next) => {
 });
 
 // MongoDB connection
+const uri = process.env.MONGODB_URI;
 mongoose
-  .connect("mongodb://localhost:27017/foodDonationDB", {
+  .connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
