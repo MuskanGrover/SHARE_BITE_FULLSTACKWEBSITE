@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Food Memory Match Game</title>
+  <link rel="stylesheet" href="newgame.css">
+</head>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: black;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgb(82, 81, 81);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  h1 {
+    color: #4CAF50;
+  }
+  .board {
+    display: grid;
+    grid-template-columns: repeat(10, 60px);
+    grid-template-rows: repeat(10, 60px);
+    grid-gap: 5px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  .card {
+    width: 70px;
+    height: 70px;
+    background: gainsboro;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    border: 1px solid #4CAF50;
+    cursor: pointer;
+  }
+  .card:hover {
+    background: #e8f5e9;
+  }
+  button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+  button:hover {
+    background-color: #45a049;
+  }
+  #message {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  /* New Score Display styling */
+  #score-display, #timer {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-top: 10px;
+  }
+</style>
+<body>
+  <div class="container">
+    <h1>Food Memory Match 🍏🍞</h1>
+    <p>Memorize the food items in 20 seconds, then match them correctly!</p>
+    <!-- Timer display -->
+    <p id="timer">Time Left: 40s</p>
+    <!-- Score display -->
+    <p id="score-display">Score: 0</p>
+    <div id="game-board" class="board"></div>
+    <button id="restart">🔄 Restart Game</button>
+    <p id="message"></p>
+  </div>
+  
+  <script>
+    const foodItems = ["🍏", "🍞", "🧀", "🥕", "🐟", "🥛", "🍇", "🍉", "🍊", "🥑"];
+    const boardSize = 10 * 10;
+    let shuffledItems = [];
+    let selectedCards = [];
+    let matchedCards = [];
+    let score = 0;
+    let gameActive = true;
+    let timer;
+
+    const board = document.getElementById("game-board");
+    const messageEl = document.getElementById("message");
+    const scoreDisplay = document.getElementById("score-display");
+    const timerDisplay = document.getElementById("timer");
+
+    // Retrieve logged-in user's email from localStorage
+    const userEmail = localStorage.getItem("userEmail");
+    if (!userEmail) {
+      alert("User email not found. Please log in.");
+      window.location.href = "/games";
+    }
+
+    function initializeGame() {
+      shuffledItems = [];
+      for (let i = 0; i < boardSize / 2; i++) {
+        let item = foodItems[i % foodItems.length];
+        shuffledItems.push(item, item);
+      }
+      shuffledItems.sort(() => 0.5 - Math.random());
+      createBoard();
+      showAllItems();
+      score = 0;
+      matchedCards = [];
+      gameActive = true;
+      scoreDisplay.textContent = "Score: " + score;
+      messageEl.textContent = "";
+      startTimer();
+    }
+
+    function createBoard() {
+      board.innerHTML = "";
+      shuffledItems.forEach((item, index) => {
+        let card = document.createElement("div");
+        card.classList.add("card");
+        card.dataset.index = index;
+        card.textContent = "❓";
+        card.addEventListener("click", flipCard);
+        board.appendChild(card);
+      });
+    }
+
+    function showAllItems() {
+      const cards = document.querySelectorAll(".card");
+      cards.forEach((card, index) => {
+        card.textContent = shuffledItems[index];
+      });
+      setTimeout(() => {
+        cards.forEach(card => card.textContent = "❓");
+      }, 20000);
+    }
+
+    function flipCard() {
+      if (!gameActive || selectedCards.length >= 2 || matchedCards.includes(this.dataset.index)) return;
+      let index = this.dataset.index;
+      this.textContent = shuffledItems[index];
+      selectedCards.push(this);
+
+      if (selectedCards.length === 2) {
+        setTimeout(checkMatch, 500);
+      }
+    }
+
+    function checkMatch() {
+      let [card1, card2] = selectedCards;
+      if (card1.textContent === card2.textContent) {
+        matchedCards.push(card1.dataset.index, card2.dataset.index);
+        card1.style.background = "lightgreen";
+        card2.style.background = "lightgreen";
+        score += 5;
+        scoreDisplay.textContent = "Score: " + score;
+        sendMatchScoreToBackend(5);
+      } else {
+        card1.textContent = "❓";
+        card2.textContent = "❓";
+      }
+      selectedCards = [];
+
+      if (matchedCards.length === boardSize) {
+        endGame();
+      }
+    }
+
+    function startTimer() {
+      let timeLeft = 60;
+      timerDisplay.textContent = `Time Left: ${timeLeft}s`;
+
+      timer = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = `Time Left: ${timeLeft}s`;
+
+        if (timeLeft <= 0) {
+          endGame();
+        }
+      }, 1000);
+    }
+
+    function endGame() {
+      clearInterval(timer);
+      gameActive = false;
+      messageEl.textContent = "⏳ Time's up! Your final score: " + score;
+      sendMatchScoreToBackend(0); // Send final score update
+    }
+
+    function sendMatchScoreToBackend(points) {
+      fetch("/gamefour", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: userEmail, score: points, winner: false })
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Backend updated score:", data.totalScore);
+      })
+      .catch(error => {
+        console.error("Error updating score in backend:", error);
+      });
+    }
+
+    document.getElementById("restart").addEventListener("click", () => {
+      clearInterval(timer);
+      initializeGame();
+    });
+
+    document.addEventListener("DOMContentLoaded", initializeGame);
+  </script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Contact Us</title>
+  <style>
+    /* General Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #121212; /* Dark background */
+      color: #f5f5f5; /* Light text for readability */
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    /* Header Styles */
+    header {
+      background-color: #1f1f1f; /* Slightly lighter dark for contrast */
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid #ff4500; /* Orange highlight */
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      color: #ff4500; /* Orange accent */
+      margin-bottom: 10px;
+    }
+
+    /* Main Content Styles */
+    main {
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: #1c1c1c; /* Slightly lighter background for content area */
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    h2 {
+      font-size: 1.8em;
+      color: #ff4500; /* Orange accent for headings */
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.1em;
+      color: #ddd; /* Light text */
+      margin-bottom: 15px;
+      line-height: 1.8;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-size: 1.1em;
+      margin-bottom: 5px;
+      color: #ddd;
+    }
+
+    input, textarea {
+      font-size: 1em;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #444;
+      border-radius: 5px;
+      background-color: #1f1f1f;
+      color: #f5f5f5;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #ff4500; /* Orange highlight */
+    }
+
+    button {
+      font-size: 1.1em;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #ff4500;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e03e00; /* Darker orange for hover */
+    }
+
+    /* Footer Styles */
+    footer {
+      background-color: #1f1f1f;
+      text-align: center;
+      padding: 10px;
+      border-top: 2px solid #ff4500;
+      margin-top: 20px;
+    }
+    #message
+    {
+      height:150px;
+    }
+
+    footer p {
+      color: #ddd;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Contact Us</h1>
+</header>
+
+<main>
+  <h2>We'd love to hear from you!</h2>
+  <p>If you have any questions, concerns, or feedback, feel free to reach out to us using the form below.</p>
+
+  <form action="/contactus" method="POST">
+    <label for="name">Your Name</label>
+    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+    <label for="email">Your Email</label>
+    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+    <label for="message">Your Message</label>
+    <textarea id="message" name="message" rows="5" placeholder="Write your message here" required></textarea>
+
+    <button type="submit">Send Message</button>
+  </form>
+</main>
+
+<footer>
+  <p>&copy; 2025 foDonor All rights reserved.</p>
+</footer>
+
+</body>
+</html>

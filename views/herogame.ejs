@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hunger Hero Challenge</title>
+ <!-- Main Game Logic -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: black;
+           
+        }
+
+        h1 {
+            margin-top: 0px;
+            font-size: 3em;
+            color: #afb8c0;
+            margin-bottom: 3px;
+        }
+
+        #gameCanvas {
+            border: 5px solid rgb(83, 77, 77);
+            height: 420px;
+            width:700px;
+            display: block;
+            margin: 0 auto;
+            background-color:#5b5e60 /* Sky blue background */
+        }
+
+        .score-board {
+            font-size: 1.5em;
+            color: white;
+            margin: 0px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="timer" style="font-size: 1.2em; margin: 5px;color: white;">Time Left: 50s</div>
+
+    <h1>Hunger Hero Challenge</h1>
+    <div class="score-board">Score: <span id="score">0</span></div>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <script src="herogame.js"></script>
+
+</body>
+</html>

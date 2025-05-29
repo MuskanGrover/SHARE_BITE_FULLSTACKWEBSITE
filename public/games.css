@@ -1,0 +1,410 @@
+/* styles.css */
+
+/* * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+} */
+
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      background-color: black;
+      color: #333;
+    }
+
+    /* HEADER */
+    header {
+      padding: 5px 20px;
+      height: auto;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      background-color: #000;
+    }
+
+    header .logo img {
+      height: 55px;
+      width: 55px;
+      margin: 8px 0 8px 10px;
+      border-radius: 50px;
+    }
+
+    header nav {
+      flex-grow: 1;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    header nav ul {
+      display: flex;
+      gap: 10px;
+      list-style-type: none;
+      font-size: 16px;
+      margin: 0;
+      padding: 0;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    header nav a {
+      color: rgb(214, 206, 206);
+      font-weight: bold;
+      text-decoration: none;
+      padding: 6px 8px;
+      transition: color 0.3s;
+    }
+
+    header nav a:hover {
+      color: #FF4500;
+    }
+
+    .cta-btn {
+      background-color: #FF4500;
+      padding: 10px 20px;
+      border-radius: 5px;
+      color: white;
+      transition: background-color 0.3s;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .cta-btn:hover {
+      background-color: #926242;
+      color: white;
+    }
+
+    /* CONTAINER & HEADING */
+    .container {
+      display: flex;
+      justify-content: center;
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 90px;
+      max-width: 100%;
+      margin-bottom: 50px;
+      font-size: 30px;
+      font-weight: 750;
+      color: black;
+      border-radius: 20px;
+      background-color: gainsboro;
+      padding: 15px 0;
+    }
+
+    /* GAMES SECTION */
+    .games .game-list {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-self: center;
+      margin-left: 0px;
+      margin-top: 100px;
+      margin-right: 30px;
+      flex-wrap: wrap; /* wrap on small screens */
+      gap: 20px; /* space between cards */
+    }
+
+    .game-card {
+      background-color: rgb(21, 20, 20);
+      padding: 10px;
+      color: white;
+      text-align: center;
+      font-size: 15px;
+      height: 330px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 230px;
+      transition: transform 0.3s ease;
+    }
+
+    .game-card:hover {
+      transform: scale(1.05);
+    }
+
+    .game-card img {
+      width: 100%;
+      height: 210px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    button {
+      padding: 10px;
+      width: 130px;
+      background-color: #FF4500;
+      color: white;
+      border: none;
+      margin-top: 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #926242;
+    }
+
+    /* BADGE SECTION */
+    .badges {
+      margin-top: 40px;
+      text-align: center;
+      padding: 30px 0;
+    }
+
+    .badge-container {
+      margin-top: 80px;
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .badge {
+      background-color: gainsboro;
+      padding: 10px;
+      border-radius: 10px;
+      width: 250px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      height: 390px;
+      margin: 0;
+    }
+
+    .badges h2 {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .badges img {
+      width: 200px;
+      height: 200px;
+      margin-bottom: 10px;
+      object-fit: contain;
+    }
+
+    .badge h3 {
+      font-size: 1.6rem;
+      color: #333;
+    }
+
+    .badge p {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    .gold {
+      border: 5px solid rgb(225, 225, 95);
+    }
+
+    .silver {
+      border: 5px solid silver;
+    }
+
+    .bronze {
+      border: 5px solid #cd7f32;
+    }
+
+    /* MEAL OF HAPPINESS SECTION */
+    .meal-of-happiness {
+      background-color: gainsboro;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 40px;
+      height: 330px;
+    }
+
+    .meal-of-happiness h2 {
+      color: black;
+      margin-bottom: 10px;
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .meal-of-happiness p {
+      margin-top: 3px;
+    }
+
+    .donate-meal-btn {
+      margin-top: 30px;
+      padding: 2px 30px;
+      background-color: #FF4500;
+      color: white;
+      width: 160px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .donate-meal-btn:hover {
+      background-color: #926242;
+    }
+
+    .highlight {
+      border: 5px solid gold;
+      box-shadow: 0 0 15px gold;
+      transform: scale(1.1);
+    }
+
+    /* EVENT INVITATION */
+    .event-invitation {
+      text-align: center;
+      padding: 20px 0;
+      height: 300px;
+    }
+
+    .invitation-btn {
+      padding: 5px 20px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      background-color: #FF4500;
+      color: white;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .invitation-btn:hover {
+      background-color: #926242;
+    }
+
+    /* FOOTER */
+    footer {
+      color: white;
+      padding: 40px 20px;
+      margin-top: 90px;
+      text-align: center;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+       list-style-type: none; /* This removes the bullets */
+    }
+
+    .footer-links ul {
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: nowrap;
+  list-style-type: none; /* This removes the bullets */
+}
+
+
+    .footer-links a {
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: #FF4500;
+    }
+
+    .social-media {
+      margin-top: 20px;
+    }
+
+    .social-media a {
+      color: white;
+      margin: 0 10px;
+      font-size: 2.8em;
+      display: inline-block;
+      transition: color 0.3s ease;
+      text-decoration: none;
+    }
+
+    .social-media a:hover {
+      color: grey;
+    }
+
+    /* RESPONSIVE FOOTER */
+    @media (max-width: 1024px) {
+      .footer-links ul {
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+        padding: 0;
+      }
+
+      .social-media a {
+        font-size: 2.4em;
+        margin: 8px 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .footer-links ul {
+        font-size: 14px;
+      }
+
+      .footer-links a {
+        font-size: 14px;
+      }
+
+      .social-media a {
+        font-size: 1.8em;
+        margin: 6px;
+      }
+    }
+
+    /* ADDITIONAL RESPONSIVENESS FOR GAMES & BADGES */
+    @media (max-width: 768px) {
+      .games .game-list {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 60px;
+        margin-right: 0;
+        gap: 25px;
+      }
+
+      .game-card {
+        width: 90vw;
+        max-width: 350px;
+      }
+
+      .badge-container {
+        justify-content: center;
+        gap: 25px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .badge {
+        width: 90vw;
+        max-width: 300px;
+      }
+    }
+  
+
+
+ 

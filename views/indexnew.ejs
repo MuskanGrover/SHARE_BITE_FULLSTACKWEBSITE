@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- <title>Document</title> -->
+    <link rel="stylesheet" href="/styless.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <script src="/scriptone.js" defer></script>
+    
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="logo">
+            <img src="/logo.jpeg" alt="Food Share Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a id="home" href="#">Home</a></li>
+                <li><a href="/donate">Donate Food</a></li>
+                <li><a href="/finddonation">Find Donations</a></li>
+                <li><a href="/games">Games</a></li>
+                <li><a href="/donationtracker">LeaderBoard</a></li>
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/signup" class="cta-btn">Sign Up</a></li>
+                <li><a href="/login" class="cta-btn">Log In</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Reduce Food Waste. Feed Those in Need.</h1>
+            <p>Join our community to donate or receive food in your local area.</p>
+            <div class="cta-buttons">
+                <a  href="/donatemoney" class="cta-btn">Donate Money</a>
+                <a href="/partners" class="cta-btn2">Our Partners</a>
+            </div>
+        </div>
+    </section>
+
+   
+<button id="chatbot-btn">
+    <i class="fa-solid fa-comment-dots"></i>
+</button>
+
+<!-- Chatbot Window -->
+<div id="chatbot-container" class="hidden">
+    <div class="chatbot-header">
+        <h3>Food Donation Chatbot</h3>
+        <button id="chatbot-close">&times;</button>
+    </div>
+    <div id="chatbot-messages"></div>
+    <div class="chatbot-input">
+        <input type="text" id="chatbot-user-input" placeholder="Type your message...">
+        <button id="chatbot-send"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+</div>
+
+<style>
+    /* Small Chatbot Icon Button */
+    #chatbot-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #ff5722;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Chatbot Window */
+    #chatbot-container {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        width: 320px;
+        height: 400px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border: 2px solid #ff5722;
+    }
+    
+    .hidden {
+    display: none !important;
+}
+
+    .chatbot-header {
+        background: #ff5722;
+        color: white;
+        padding: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    #chatbot-messages {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+        background: #f9f9f9;
+    }
+    
+    .chatbot-input {
+        display: flex;
+        padding: 10px;
+        background: white;
+    }
+    
+    .chatbot-input input {
+        flex: 1;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    
+    .chatbot-input button {
+        background: #ff5722;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+</style>
+
+
+<!-- Featured Donations Section -->
+<section class="featured-donations">
+    <h2 id="head">Featured Donations</h2>
+    <div class="donation-cards">
+
+        <div class="donation-card">
+            <img src="food1.jpg" alt="Donation 1">
+            <div class="card-content">
+                <h3>Fresh Red Apples - 3 Bags</h3>
+                <p>Freshly harvested apples, ready for donation.</p>
+                <p><strong>Pickup Location:</strong> Bahadurgarh</p>
+                <a href="/claimdonation?location=haryana" class="cta-btn">Claim Donation</a>
+            </div>
+        </div>
+
+        <div class="donation-card">
+            <img src="food2.jpg" alt="Donation 2">
+            <div class="card-content">
+                <h3>Homemade Bread - 5 Loafs</h3>
+                <p>Freshly baked bread, perfect for sharing.</p>
+                <p><strong>Pickup Location:</strong> CP Delhi</p>
+                <a href="/claimdonation?location=CP Delhi" class="cta-btn">Claim Donation</a>
+            </div>
+        </div>
+
+        <div class="donation-card">
+            <img src="food3.jpg" alt="Donation 3">
+            <div class="card-content">
+                <h3>Vegetable Soup - 10 Bowls</h3>
+                <p>Home-cooked vegetable soup, served in portions.</p>
+                <p><strong>Pickup Location:</strong> Kiit Chowk</p>
+                <a href="/claimdonation?location=kiitChowk" class="cta-btn">Claim Donation</a>
+            </div>
+        </div>
+
+        <div class="donation-card">
+            <img src="food4.jpg" alt="Donation 4">
+            <div class="card-content">
+                <h3>Rajma Chawal - 30 Plates</h3>
+                <p>Home-cooked yummy Rajma Chawal, served in portions.</p>
+                <p><strong>Pickup Location:</strong>Bangalore</p>
+                <a href="/claimdonation?location=Bangalore" class="cta-btn">Claim Donation</a>
+            </div>
+        </div>
+
+        <div class="donation-card">
+            <img src="food5.jpg" alt="Donation 5">
+            <div class="card-content">
+                <h3>Fruit Juices - 30 Bottles</h3>
+                <p>Fresh fruit juices, perfect for a refreshing drink.</p>
+                <p><strong>Pickup Location:</strong> KIIT Campus-6</p>
+                <a href="/claimdonation?location=KIIT Campus" class="cta-btn">Claim Donation</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img id="img" src="logo.jpeg" alt="Food Share Logo">
+            </div>
+            <div class="footer-links">
+                <ul>
+                    <li><a href="/privacypolicy">Privacy Policy</a></li>
+                    <li><a href="/termsofservice">Terms of Service</a></li>
+                    <li><a href="/contactus">Contact Us</a></li>
+                    <li><a href="/faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="social-media">
+                <a href="https://www.facebook.com/domsfoodmission/"><i class="fa-brands fa-facebook"></i></a>
+            <a href="https://en.wikipedia.org/wiki/Twitter"><i class="fa-brands fa-twitter"></i></a>
+            <a href="https://www.instagram.com/donateameal_/?hl=en"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://findfoodsupport.withgoogle.com/nonprofit-resources/"><i class="fa-brands fa-google-plus"></i></a>
+            <a href="https://www.youtube.com/watch?v=sU6sglkD3MU"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+    <script src="/home.js"></script>
+    <script src="chatbot.js" defer></script>
+    <script src="/searchDonation.js"></script>
+    <script src="/claimdonation.js"></script>
+    
+</body>
+</html>
+
+

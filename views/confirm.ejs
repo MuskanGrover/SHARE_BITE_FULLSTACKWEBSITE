@@ -1,0 +1,16 @@
+<h2>Confirm Your Payment</h2>
+<form action="/confirm-payment" method="POST" enctype="multipart/form-data">
+  <label>Name:</label>
+  <input type="text" name="name" required /><br/>
+  
+  <label>Email:</label>
+  <input type="email" name="email" required /><br/>
+  
+  <label>Last 4 digits of Transaction ID (UTR):</label>
+  <input type="text" name="utr" required /><br/>
+  
+  <label>Upload Screenshot:</label>
+  <input type="file" name="screenshot" accept="image/*" required /><br/>
+  
+  <button type="submit">Submit</button>
+</form>

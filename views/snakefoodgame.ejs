@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snake & Ladder Food Game</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: black;
+  }
+  .container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgb(82, 81, 81);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  h1 {
+    color: #27ae60;
+  }
+  .board {
+    display: grid;
+    grid-template-columns: repeat(10, 50px);
+    grid-template-rows: repeat(10, 50px);
+    gap: 2px;
+    margin: 20px auto;
+    width: max-content;
+    background-color: whitesmoke;
+    padding: 5px;
+    border-radius: 10px;
+  }
+  .cell {
+    width: 50px;
+    height: 50px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #27ae60;
+    font-size: 20px;
+    font-weight: bold;
+    position: relative;
+  }
+  .player-piece {
+    font-size: 30px;
+    position: absolute;
+  }
+  button {
+    background: #2980b9;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    margin: 10px 5px;
+  }
+  button:hover {
+    background: #1f6691;
+  }
+  #winner-message {
+    font-size: 20px;
+    font-weight: bold;
+    color: #d35400;
+    margin-top: 20px;
+  }
+</style>
+<body>
+  <div class="container">
+    <h1>Snake & Ladder Food Collection Game 🐍🍎</h1>
+    
+    <div class="info">
+      <h2 id="current-player">🎮 Your Turn</h2>
+      <h3 id="dice-value">🎲 Roll to Start</h3>
+    </div>
+
+    <div class="buttons">
+      <button id="startGame">🎮 Start Game</button>
+      <button id="rollDice">🎲 Roll Dice</button>
+    </div>
+
+    <div id="board" class="board"></div>
+
+    <h2 id="winner-message"></h2>
+  </div>
+  
+  <script>
+    // Retrieve logged-in user's details from localStorage.
+    // Make sure these are set during login.
+    const userEmail = localStorage.getItem("userEmail");
+    const userName = localStorage.getItem("userName") || "Player";
+    if (!userEmail) {
+      alert("No user email found. Please log in.");
+      window.location.href = "/games";
+    }
+    
+    // Set up two players: logged-in user and computer.
+    let players = [
+      { name: userName, position: 0, icon: '🔴', isUser: true },
+      { name: 'Computer', position: 0, icon: '🤖', isUser: false }
+    ];
+    const gridSize = 10;
+    const foodPositions = [5, 15, 22, 38, 47, 56, 67, 79, 88];
+    const snakePositions = { 24: 4, 48: 18, 72: 32, 96: 54 };
+    let currentPlayer = 0;
+    
+    document.getElementById("startGame").addEventListener("click", () => {
+      resetGame();
+      updateBoard();
+      updatePlayerInfo();
+    });
+    
+    document.getElementById("rollDice").addEventListener("click", rollDice);
+    
+    function resetGame() {
+      players.forEach(player => player.position = 0);
+      currentPlayer = 0;
+      document.getElementById("winner-message").textContent = "";
+      document.getElementById("dice-value").textContent = "";
+    }
+    
+    function updateBoard() {
+      const board = document.getElementById("board");
+      board.innerHTML = "";
+      let grid = "";
+      for (let i = 0; i < gridSize * gridSize; i++) {
+        let cellContent = "";
+        if (foodPositions.includes(i)) {
+          cellContent = "🍎";
+        } else if (Object.keys(snakePositions).includes(i.toString())) {
+          cellContent = "🐍";
+        }
+        grid += `<div class='cell' id='cell-${i}'>${cellContent}</div>`;
+      }
+      board.innerHTML = grid;
+      updatePlayerPositions();
+    }
+    
+    function updatePlayerPositions() {
+      players.forEach((player, index) => {
+        const cell = document.getElementById(`cell-${player.position}`);
+        if (cell) {
+          cell.innerHTML += `<div class='player-piece' id='player-${index}'>${player.icon}</div>`;
+        }
+      });
+    }
+    
+    function rollDice() {
+      let diceRoll = Math.floor(Math.random() * 6) + 1;
+      let player = players[currentPlayer];
+      player.position += diceRoll;
+      
+      // Check win condition: reaching the final cell
+      if (player.position >= gridSize * gridSize - 1) {
+        player.position = gridSize * gridSize - 1;
+        document.getElementById("winner-message").textContent = `🏆 ${player.name} Wins the Game! 🎉`;
+        disableButtons();
+        if (player.isUser) {
+          // If logged-in user wins, send winner message to backend
+          sendWinnerToBackend();
+        }
+        return;
+      }
+      
+      if (foodPositions.includes(player.position)) {
+        document.getElementById("winner-message").textContent = `${player.name} collected food! 🍎`;
+      }
+      
+      if (snakePositions[player.position] !== undefined) {
+        player.position = snakePositions[player.position];
+        document.getElementById("winner-message").textContent = `🐍 Oops! ${player.name} got bitten by a snake!`;
+      }
+      
+      document.getElementById("dice-value").textContent = `${player.icon} ${player.name} rolled: 🎲 ${diceRoll}`;
+      updateBoard();
+      currentPlayer = (currentPlayer + 1) % 2;
+      updatePlayerInfo();
+      
+      // If it's the computer's turn, roll automatically after a delay
+      if (!players[currentPlayer].isUser) {
+        setTimeout(rollDice, 1000);
+      }
+    }
+    
+    function updatePlayerInfo() {
+      document.getElementById("current-player").textContent = `🎮 ${players[currentPlayer].icon} ${players[currentPlayer].name}'s Turn`;
+    }
+    
+    function disableButtons() {
+      document.querySelectorAll("button").forEach(btn => btn.disabled = true);
+    }
+    
+    // Function to send winner info to backend when logged-in user wins
+    function sendWinnerToBackend() {
+      fetch("/gamethree", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: userEmail, score: 100, winner: true })
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert(`Congratulations! You won the game and earned 100 bonus points!`);
+      })
+      .catch(error => {
+        console.error("Error updating score:", error);
+      });
+    }
+    
+  </script>
+</body>
+</html>

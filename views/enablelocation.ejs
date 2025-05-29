@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Enable Location</title>
+</head>
+<body>
+    <h2>Fetching your location...</h2>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Extract the 'location' parameter from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const donationLocation = urlParams.get('location'); // e.g., "Downtown Park"
+
+            if (!donationLocation) {
+                document.body.innerHTML = "<h2>Error: Donation location not specified.</h2>";
+                return;
+            }
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const userLat = position.coords.latitude;
+                        const userLon = position.coords.longitude;
+
+                        console.log("User Latitude:", userLat);
+                        console.log("User Longitude:", userLon);
+
+                        // Redirect using GET request with the donation location included
+                        window.location.href = `/claimdonation?userLat=${userLat}&userLon=${userLon}&location=${encodeURIComponent(donationLocation)}`;
+                    },
+                    (error) => {
+                        console.warn("Location access denied.");
+                        document.body.innerHTML = "<h2>Please enable location services to proceed.</h2>";
+                    }
+                );
+            } else {
+                document.body.innerHTML = "<h2>Geolocation is not supported by your browser.</h2>";
+            }
+        });
+    </script>
+</body>
+</html>

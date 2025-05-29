@@ -1,0 +1,38 @@
+{
+  "dependencies": {
+    "@google-cloud/dialogflow": "^6.14.0",
+    "@paypal/checkout-server-sdk": "^1.0.3",
+    "axios": "^1.7.9",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^1.20.3",
+    "cookie-parser": "^1.4.7",
+    "dialogflow": "^4.0.3",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "geolib": "^3.3.4",
+    "jsdom": "^26.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "leaflet": "^1.9.4",
+    "mongoose": "^8.9.5",
+    "node-fetch": "^3.3.2",
+    "node-geocoder": "^4.4.1",
+    "nodemailer": "^6.10.0",
+    "nodemon": "^3.1.9",
+    "stripe": "^17.5.0",
+    "uuid": "^11.1.0",
+    "ws": "^8.18.0"
+  },
+  "name": "food",
+  "version": "1.0.0",
+  "main": "scriptone.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

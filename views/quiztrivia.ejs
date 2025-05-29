@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Food Donation Trivia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: black;
+        }
+        .container {
+            max-width: 800px;
+            margin: 100px auto;
+            padding: 40px;
+            background: gainsboro;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border: 4px solid grey;
+        }
+        h1 {
+            text-align: center;
+            font-size: 50px;
+        }
+        .question p {
+            font-size: 33px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #FF4500;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #926242;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Food Donation Trivia</h1>
+        <div class="question" id="question-container">
+            <p id="question-text">Loading question...</p>
+            <ul class="options" id="options-container"></ul>
+        </div>
+        <button class="btn" id="next-button" onclick="nextQuestion()">Next</button>
+        <button class="btn" id="submit-button" onclick="submitQuiz()" style="display: none;">Submit</button>
+        <div class="result" id="result" style="display: none;">
+            <p></p>
+        </div>
+    </div>
+
+    <script>
+        // Correctly set the user email using EJS templating
+        const userEmail = "<%= email %>";
+
+        if (!userEmail) {
+            alert("Error: User email not found. Please log in again.");
+            window.location.href = "/login"; // Redirect if email is missing
+        }
+
+        const questions = [
+    { 
+        text: "How much food is wasted globally each year?", 
+        options: ["500 million tons", "1.3 billion tons", "2 billion tons", "3.5 billion tons"], 
+        correct: 1 
+    },
+    { 
+        text: "What percentage of food waste comes from households?", 
+        options: ["10%", "20%", "30%", "50%"], 
+        correct: 2 
+    },
+    { 
+        text: "Which country wastes the most food per capita?", 
+        options: ["USA", "China", "India", "France"], 
+        correct: 0 
+    },
+    { 
+        text: "What is the primary cause of food waste in developed countries?", 
+        options: ["Poor transportation", "Overproduction", "Consumer behavior", "Inadequate storage"], 
+        correct: 2 
+    },
+    { 
+        text: "Which of these foods has the highest wastage rate?", 
+        options: ["Bread", "Dairy products", "Fruits & Vegetables", "Meat"], 
+        correct: 2 
+    },
+    { 
+        text: "Approximately what percentage of the food produced globally is wasted?", 
+        options: ["10%", "20%", "30%", "40%"], 
+        correct: 2 
+    },
+    { 
+        text: "What is the best way to reduce food waste at home?", 
+        options: ["Buy in bulk", "Store food properly", "Throw away leftovers", "Ignore expiration dates"], 
+        correct: 1 
+    },
+    { 
+        text: "What does 'best before' mean on food packaging?", 
+        options: ["Food is unsafe after this date", "Food is best before this date but still edible", "Food should be discarded immediately", "Food is only fresh before this date"], 
+        correct: 1 
+    },
+    { 
+        text: "Which organization runs the 'Save Food' initiative?", 
+        options: ["UNICEF", "FAO", "WHO", "World Bank"], 
+        correct: 1 
+    },
+    { 
+        text: "Which of these apps helps reduce food waste by connecting people with surplus food?", 
+        options: ["FoodPanda", "Too Good To Go", "UberEats", "DoorDash"], 
+        correct: 1 
+    }
+];
+
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const question = questions[currentQuestionIndex];
+            document.getElementById("question-text").textContent = question.text;
+            document.getElementById("options-container").innerHTML = question.options
+                .map((opt, index) => `<li><label><input type="radio" name="question" value="${index}"> ${opt}</label></li>`)
+                .join("");
+        }
+
+        function nextQuestion() {
+            const selectedOption = document.querySelector('input[name="question"]:checked');
+            if (!selectedOption) return alert("Please select an answer before proceeding.");
+
+            if (parseInt(selectedOption.value) === questions[currentQuestionIndex].correct) {
+                score += 10;
+            }
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                document.getElementById("next-button").style.display = "none";
+                document.getElementById("submit-button").style.display = "block";
+            }
+        }
+
+        function submitQuiz() {
+            const resultDiv = document.getElementById("result");
+            resultDiv.querySelector("p").textContent = `You scored ${score} points.`;
+            resultDiv.style.display = "block";
+
+            document.getElementById("question-container").style.display = "none";
+            document.getElementById("next-button").style.display = "none";
+            document.getElementById("submit-button").style.display = "none";
+
+            //Correct fetch request with userEmail
+            fetch("/gameone", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: userEmail, score })  // Use userEmail from EJS
+            })
+            .then(response => response.json())
+            .catch(error => alert("Failed to save score. Please try again."));
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>

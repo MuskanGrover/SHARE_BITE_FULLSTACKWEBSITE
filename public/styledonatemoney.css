@@ -1,0 +1,202 @@
+/* General Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color:black;
+    color: #333;
+}
+
+header {
+    background-color:rgb(44, 43, 43);
+    padding: 4px;
+    height:80px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+a {
+    text-decoration: none;
+    color: #ded2d2;
+}
+header .logo img {
+    height: 70px;
+    width: 70px;
+    margin-top: 8px;
+    margin-left: 20px;
+    border-radius: 50px;
+}
+header nav ul {
+    display: flex;
+    gap: 25px;
+    list-style-type: none;
+    font-size: 17px;
+}
+header nav a {
+    color: rgb(214, 206, 206);
+    font-weight: bold;
+}
+header nav a:hover
+{
+    color:#FF4500;
+}
+
+.cta-btn {
+    background-color: #FF4500;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.cta-btn:hover {
+    background-color: #926242;
+    color: white;
+}
+
+
+
+/* Donate Section */
+.donate-section {
+    padding: 10px 20px;
+    text-align: center;
+    background-color: #fff;
+    height: 900px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    /* font-size: 28px; */
+    color: #333;
+}
+
+p {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Form Styles */
+.donate-section {
+    height: 900px;
+}
+
+.container {
+    margin-top: 50px;
+    height: 600px;
+    background-color: gainsboro;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+    display: block;
+}
+
+input[type="text"],
+input[type="email"],
+select,
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+button.cta-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+button.cta-btn:hover {
+    background-color: #45a049;
+}
+
+/* Confirmation Message */
+#confirmation-message {
+    margin-top: 30px;
+    font-size: 18px;
+    color: #333;
+}
+
+/* Footer Styles */
+footer {
+    background-color: rgb(39, 38, 38);
+    color: white;
+    padding: 25px;
+    text-align: center;
+    margin-top: 50px;
+}
+
+footer .footer-links {
+    list-style: none;
+    padding: 10px;
+}
+
+footer .footer-links li {
+    display: inline;
+    margin: 0 15px;
+}
+
+footer .footer-links li a {
+    color: white;
+    text-decoration: none;
+}
+
+#imageone {
+    height: 120px;
+    width: 120px;
+}
+
+/* Social Media Section */
+.social-media {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.social-media a {
+    color: white;
+    font-size: 2.5em;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+.social-media a i {
+    margin: 0;
+}
+
+.social-media a:hover {
+    color: grey;
+}

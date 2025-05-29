@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Find Donation Centers Near You</title>
+    <link rel="stylesheet" href="/finddonation.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        #suggestions {
+            border: 1px solid #ccc;
+            display: none;
+            position: absolute;
+            background: white;
+            width: 100%;
+            max-width: 760px;
+            z-index: 1000;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        #suggestions div {
+            padding: 10px;
+            cursor: pointer;
+            color: black;
+            font-size: 18px;
+        }
+        #suggestions div:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="logo.jpeg" alt="Food Share Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/donate">Donate Food</a></li>
+                <li><a href="#">LeaderBoard</a></li>
+                <li><a href="/about">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#" class="cta-btn">Sign Up</a></li>
+                <li><a href="#" class="cta-btn">Log In</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Find Donation Centers Near You</h2>
+        <div class="search-section">
+            <input type="text" id="location-input" placeholder="Enter your location..." style="width: 100%; padding: 10px; font-size: 16px; height: 50px;">
+            <div id="suggestions"></div>
+            <button onclick="searchDonationCenters()">Search</button>
+        </div>
+        <div class="results-section">
+            <h3>Available Donation Centers</h3>
+            <p>YOU CAN PICKUP THE HEARTFUL DONATIONS FROM FOLLOWING LOCATIONS...</p>
+            <p>These Donations are under 20km Range from The Location You Entered</p>
+            <ul id="donation-list"></ul>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img id="img" src="logo.jpeg" alt="Food Share Logo">
+            </div>
+            <div class="footer-links">
+                <ul>
+                    <li><a href="/privacypolicy">Privacy Policy</a></li>
+                    <li><a href="/termsofservice">Terms of Service</a></li>
+                    <li><a href="/contactus">Contact Us</a></li>
+                    <li><a href="/faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="social-media">
+                <a href="https://www.facebook.com/domsfoodmission/"><i class="fa-brands fa-facebook"></i></a>
+            <a href="https://en.wikipedia.org/wiki/Twitter"><i class="fa-brands fa-twitter"></i></a>
+            <a href="https://www.instagram.com/donateameal_/?hl=en"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://findfoodsupport.withgoogle.com/nonprofit-resources/"><i class="fa-brands fa-google-plus"></i></a>
+            <a href="https://www.youtube.com/watch?v=sU6sglkD3MU"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+   
+</body>
+<script>
+    let selectedLat = null, selectedLon = null;
+    
+    async function fetchLocationSuggestions(query) {
+        if (query.length < 3) {
+            document.getElementById('suggestions').style.display = 'none';
+            return;
+        }
+    
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
+        const results = await response.json();
+    
+        const suggestions = document.getElementById('suggestions');
+        suggestions.innerHTML = '';
+        suggestions.style.display = results.length ? 'block' : 'none';
+    
+        results.forEach(place => {
+            const div = document.createElement('div');
+            div.innerHTML = place.display_name;
+            div.onclick = () => {
+                document.getElementById('location-input').value = place.display_name;
+                selectedLat = parseFloat(place.lat);
+                selectedLon = parseFloat(place.lon);
+                suggestions.style.display = 'none';
+                console.log(`Selected Location: Lat=${selectedLat}, Lon=${selectedLon}`);
+            };
+            suggestions.appendChild(div);
+        });
+    }
+    
+    document.getElementById('location-input').addEventListener('input', function() {
+        fetchLocationSuggestions(this.value);
+    });
+    
+    async function searchDonationCenters() {
+        const userInput = document.getElementById("location-input").value;
+        
+        if (!userInput) {
+            alert("Please enter a location.");
+            return;
+        }
+    
+        if (!selectedLat || !selectedLon) {
+            // If lat/lon isn't set yet, fetch it
+            const locationResponse = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(userInput)}`);
+            const locationData = await locationResponse.json();
+            
+            if (locationData.length === 0) {
+                alert("Invalid location. Please try again.");
+                return;
+            }
+    
+            selectedLat = parseFloat(locationData[0].lat);
+            selectedLon = parseFloat(locationData[0].lon);
+        }
+    
+        console.log(`Fetching donations for: Lat=${selectedLat}, Lon=${selectedLon}`);
+    
+        const response = await fetch(`/finddonation/search?latitude=${selectedLat}&longitude=${selectedLon}`);
+        const result = await response.json();
+    
+        const donationList = document.getElementById("donation-list");
+        donationList.innerHTML = "";
+    
+        if (response.ok) {
+            console.log("Donations received:", result);
+            if (result.donations.length === 0) {
+                donationList.innerHTML = "<li>No donations found in this area.</li>";
+            } else {
+                result.donations.forEach(donation => {
+                    const listItem = document.createElement("li");
+                    listItem.innerHTML = `
+                        <div style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 10px;">
+                            <h4>Food Type: <strong>${donation.foodType}</strong></h4>
+                            <p>Quantity: <strong>${donation.quantity} units</strong></p>
+                            <p>Pickup Location: <strong>${donation.completeAddress}</strong></p>
+                            <p>Contact Info: <strong>${donation.contactInfo}</strong></p>
+                        </div>`;
+                    donationList.appendChild(listItem);
+                });
+            }
+        } else {
+            console.error("Error response from server:", result);
+            alert(result.error || "An error occurred while fetching donations.");
+        }
+    }
+    </script>
+</html>      

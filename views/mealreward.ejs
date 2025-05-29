@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Meal of Happiness - Scratch & Win</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background:black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .coupon-card {
+      position: relative;
+      background: white;
+      border-radius: 20px;
+      padding: 40px 30px 60px 30px;
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      text-align: center;
+      user-select: none;
+    }
+    .coupon-card h1 {
+      font-size: 2rem;
+      color: #ff5722;
+      margin-bottom: 5px;
+    }
+    .coupon-card p {
+      font-size: 1.1rem;
+      margin: 10px 0 30px 0;
+    }
+
+    /* Container for the scratch area */
+    .scratch-container {
+      position: relative;
+      width: 320px;
+      height: 80px;
+      margin: 0 auto 10px auto;
+      user-select: none;
+    }
+
+    #couponText {
+      font-size: 2.5rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #2e7d32;
+      background: #e8f5e9;
+      border-radius: 10px;
+      width: 320px;
+      height: 80px;
+      line-height: 80px;
+      user-select: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    #scratchCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 10px;
+      cursor: pointer;
+      user-select: none;
+      z-index: 2;
+    }
+
+    .instruction {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 25px;
+      font-style: italic;
+      user-select: none;
+    }
+
+    .back-btn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #ff7043;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .back-btn:hover {
+      background-color: #ff5722;
+    }
+  </style>
+</head>
+<body>
+  <div class="coupon-card">
+    <h1>🎉 Congratulations!</h1>
+    <p>You’ve unlocked the <strong>Meal of Happiness</strong></p>
+
+    <div class="scratch-container">
+      <div id="couponText">FREE MEAL</div>
+      <canvas id="scratchCanvas" width="320" height="80"></canvas>
+    </div>
+
+    <div class="instruction">Scratch it to reveal coupon id</div>
+
+    <button class="back-btn" onclick="window.location.href='/games'">Back to Games</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('scratchCanvas');
+    const ctx = canvas.getContext('2d');
+    const couponText = document.getElementById('couponText');
+    let isDrawing = false;
+
+    function generateCouponCode() {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let code = '';
+      for(let i=0; i<8; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return code;
+    }
+
+    couponText.textContent = 'FREE MEAL';
+
+    function initCanvas() {
+      ctx.fillStyle = '#C0C0C0'; // silver overlay
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.globalCompositeOperation = 'destination-out'; // for erasing
+    }
+
+    function getPointerPos(evt) {
+      const rect = canvas.getBoundingClientRect();
+      let x, y;
+      if(evt.touches) {
+        x = evt.touches[0].clientX - rect.left;
+        y = evt.touches[0].clientY - rect.top;
+      } else {
+        x = evt.clientX - rect.left;
+        y = evt.clientY - rect.top;
+      }
+      return { x, y };
+    }
+
+    function drawDot(x, y) {
+      ctx.beginPath();
+      ctx.arc(x, y, 15, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function scratchStart(evt) {
+      isDrawing = true;
+      const pos = getPointerPos(evt);
+      drawDot(pos.x, pos.y);
+      evt.preventDefault();
+    }
+
+    function scratchMove(evt) {
+      if(!isDrawing) return;
+      const pos = getPointerPos(evt);
+      drawDot(pos.x, pos.y);
+      evt.preventDefault();
+    }
+
+    function scratchEnd() {
+      isDrawing = false;
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const totalPixels = imgData.data.length / 4;
+      let transparentPixels = 0;
+      for(let i=3; i < imgData.data.length; i+=4) {
+        if(imgData.data[i] === 0) transparentPixels++;
+      }
+      if(transparentPixels > totalPixels * 0.5) {
+        // reveal coupon code
+        const couponCode = generateCouponCode();
+        couponText.textContent = couponCode;
+        canvas.style.transition = 'opacity 1s ease';
+        canvas.style.opacity = 0;
+        setTimeout(() => {
+          canvas.style.display = 'none';
+          couponText.style.color = '#2e7d32';
+        }, 1000);
+      }
+    }
+
+    initCanvas();
+
+    // mouse events
+    canvas.addEventListener('mousedown', scratchStart);
+    canvas.addEventListener('mousemove', scratchMove);
+    canvas.addEventListener('mouseup', scratchEnd);
+    canvas.addEventListener('mouseleave', scratchEnd);
+
+    // touch events
+    canvas.addEventListener('touchstart', scratchStart);
+    canvas.addEventListener('touchmove', scratchMove);
+    canvas.addEventListener('touchend', scratchEnd);
+  </script>
+</body>
+</html>

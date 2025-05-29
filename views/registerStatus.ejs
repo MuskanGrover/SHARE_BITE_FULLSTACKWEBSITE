@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <style>
+    body {
+      background-color:black;
+      font-family: Arial, sans-serif;
+      color:black;
+      text-align: center;
+      padding: 20px;
+    }
+    .message-container {
+      margin: 50px auto;
+      padding: 20px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      background-color:gainsboro;
+      max-width: 500px;
+    }
+    .success-message {
+      color: green;
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+    .error-message {
+      color: red;
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+    .registration-details {
+      text-align: left;
+      margin-top: 20px;
+    }
+    .registration-details p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="message-container">
+    <h1 class="<%= data ? 'success-message' : 'error-message' %>"><%= message %></h1>
+
+    <% if (data) { %>
+      <div class="registration-details">
+        <h3>User Registration Details:</h3>
+        <p><strong>Name:</strong> <%= data.name %></p>
+        <p><strong>Email:</strong> <%= data.email %></p>
+        <p><strong>User Type:</strong> <%= data.usertype %></p>
+      </div>
+    <% } %>
+
+    <a href="/signup">Go back to the signup form</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,297 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: black;
+    color: white;
+}
+
+/* Header */
+header {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: #000;
+}
+
+header .logo img {
+    height: 55px;
+    width: 55px;
+    border-radius: 50%;
+}
+
+header nav {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+header nav ul {
+    display: flex;
+    gap: 15px;
+    list-style-type: none;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 10px 0;
+}
+
+header nav a {
+    color: rgb(214, 206, 206);
+    font-weight: bold;
+    text-decoration: none;
+    padding: 6px 10px;
+    transition: color 0.3s;
+}
+
+header nav a:hover {
+    color: #FF4500;
+}
+
+.cta-btn {
+    background-color: #FF4500;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    transition: 0.3s;
+    text-align: center;
+    text-decoration: none;
+}
+
+.cta-btn:hover {
+    background-color: #926242;
+    color: white;
+}
+
+/* Container */
+.container {
+    max-width: 100%;
+    margin: 60px auto 0;
+    padding: 20px;
+}
+
+/* Donation Page Layout */
+.donation-page {
+    background-color:#f4f4f4;
+    color: black;
+    margin: 0 auto;
+    margin-top: 120px;
+    padding: 30px;
+    width: 900px;
+    max-width: 1100px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Section Titles */
+h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Donation Progress Tracker */
+.donation-tracker {
+    background-color: gainsboro;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+
+.donation-tracker h2 {
+    color: #0d0e0d;
+}
+
+.donation-tracker p {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.progress-bar-container {
+    width: 100%;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    height: 30px;
+    margin-top: 15px;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #FF4500;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+/* Leaderboard Section */
+.leaderboard {
+    background-color: #e9f0f1;
+    border-radius: 8px;
+    padding: 20px;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 15px;
+}
+
+th {
+    background-color: #FF4500;
+    color: white;
+    font-size: 1.2rem;
+}
+
+td {
+    background-color: gainsboro;
+    font-size: 1rem;
+}
+
+td:first-child {
+    font-weight: bold;
+}
+
+/* Image Styling */
+#img {
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+}
+
+/* Footer */
+footer {
+    color: white;
+    padding: 40px 20px;
+    margin-top: 80px;
+    text-align: center;
+    background-color: #000;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-links ul {
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+}
+
+.social-media a {
+    color: white;
+    margin: 0 10px;
+    font-size: 2.4em;
+}
+
+.social-media a:hover {
+    color: grey;
+}
+
+/* Media Queries */
+
+/* Tablet (≤768px) */
+@media (max-width: 768px) {
+    header nav ul {
+        justify-content: center;
+    }
+
+    .donation-page {
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .progress-bar-container {
+        height: 25px;
+    }
+
+    .progress-bar {
+        height: 25px;
+    }
+
+    th, td {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    .footer-links ul {
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .social-media a {
+        font-size: 2em;
+    }
+}
+
+/* Mobile (≤480px) */
+@media (max-width: 480px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    header nav {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .cta-btn {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+    }
+
+    .donation-page {
+        padding: 15px;
+        width: 95%;
+    }
+
+    .progress-bar-container {
+        height: 20px;
+    }
+
+    .progress-bar {
+        height: 20px;
+    }
+
+    th, td {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .footer-links ul {
+        font-size: 14px;
+    }
+
+    .social-media a {
+        font-size: 1.6em;
+    }
+}

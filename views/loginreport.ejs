@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background-color: black;
+    }
+    .message-container {
+      margin: 170px auto;
+      padding: 30px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      background-color: lightgray;
+      max-width: 500px;
+    }
+    .success-message {
+      color: green;
+      font-size: 1.5em;
+    }
+    .error-message {
+      color: red;
+      font-size: 1.5em;
+    }
+    .links {
+      margin-top: 20px;
+    }
+    .links a {
+      font-size: 1.2em;
+      margin: 10px;
+      color: blue;
+      text-decoration: none;
+    }
+    .links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="message-container">
+    <% if (error && error.length > 0) { %>
+      <h1 class="error-message"><%= error %></h1>
+      <a href="/login" class="links">Try Again</a>
+    <% } else if (message) { %>
+      <h1 class="success-message"><%= message %></h1>
+      <div class="links">
+        <a href="<%= links.home %>">Go to Home Page</a>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>

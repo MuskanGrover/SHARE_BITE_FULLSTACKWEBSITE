@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Tracking with Leaflet</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        #map {
+            width: 100%;
+            height: 100vh;
+        }
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 14px;
+            z-index: 1000;
+        }
+    </style>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <div id="info">Tracking Delivery...</div>
+    <div id="map"></div>
+    
+    <!-- 🔊 Beep sound element -->
+   <audio id="beep" src="/sounds/beep.mp3" preload="auto"></audio>
+
+
+    <script>
+        const donorLocation = [<%= donorLat %>, <%= donorLon %>];
+        const userLocation = [<%= userLat %>, <%= userLon %>];
+
+        if (!donorLocation || !userLocation || isNaN(donorLocation[0]) || isNaN(donorLocation[1]) || isNaN(userLocation[0]) || isNaN(userLocation[1])) {
+            alert("Invalid coordinates! Make sure the server is properly injecting the values.");
+        }
+
+        const map = L.map('map').setView(donorLocation, 20);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        const donorMarker = L.marker(donorLocation).addTo(map).bindPopup('Donor Location').openPopup();
+        const userMarker = L.marker(userLocation).addTo(map).bindPopup('Your Location');
+
+        const getRoute = async () => {
+            try {
+                const apiKey = '5b3ce3597851110001cf62480ffac8df27d94243bc608a9b6a2344ce';
+                const response = await fetch(
+                    `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${apiKey}&start=${donorLocation[1]},${donorLocation[0]}&end=${userLocation[1]},${userLocation[0]}`
+                );
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+
+                const data = await response.json();
+                return data.features[0].geometry.coordinates.map(coord => [coord[1], coord[0]]);
+            } catch (error) {
+                console.error('Error fetching route:', error);
+                alert("An error occurred while fetching the route. Check the console for more details.");
+            }
+        };
+
+        const animateDelivery = async () => {
+            const route = await getRoute();
+
+            if (!route || route.length === 0) {
+                alert("No route found. Please check your API key or the input coordinates.");
+                return;
+            }
+
+            const polyline = L.polyline(route, { color: 'blue', weight: 3 }).addTo(map);
+            map.fitBounds(polyline.getBounds());
+
+            const deliveryMarker = L.marker(donorLocation, {
+                icon: L.divIcon({ className: 'delivery-marker', html: '🚚', iconSize: [27, 27] })
+            }).addTo(map);
+
+            let index = 0;
+            const step = () => {
+                if (index < route.length) {
+                    deliveryMarker.setLatLng(route[index]);
+                    index++;
+                    setTimeout(step, 120);
+                } else {
+                    document.getElementById('info').innerText = 'Delivery Completed!';
+                    const beep = document.getElementById('beep');
+                    beep.play().catch(err => console.error("Beep autoplay failed:", err));
+                }
+            };
+
+            step();
+        };
+
+        animateDelivery();
+    </script>
+</body>
+</html>

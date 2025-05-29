@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Games and Badges</title>
+    <link rel="stylesheet" href="/games.css">
+    <script src="games.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
+
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="logo.jpeg" alt="Food Share Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Donate Food</a></li>
+                <li><a href="#">Find Donations</a></li>
+                <li><a href="#">LeaderBoard</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#" class="cta-btn">Sign Up</a></li>
+                <li><a href="#" class="cta-btn">Log In</a></li>
+            </ul>
+        </nav>
+    </header>
+
+<div class="container">
+
+    <!-- Games Section -->
+    <section class="games">
+        <h2>PLAY OUT</h2>
+        <div class="game-list">
+            <div class="game-card">
+                <img src="game1-thumbnail.jpg" alt="Game 1">
+                <p>Food Donation Trivia</p>
+                <button id="playgameone">Play Game 1</button>
+            </div>
+            <div class="game-card">
+                <img src="game2-thumbnail.jpg" alt="Game 2">
+                <p>Hunger Hero Challenge</p>
+                <button id="playgametwo">Play Game 2</button>
+            </div>
+            <div class="game-card">
+                <img src="game4-thumbnail.jpg" alt="Game 2">
+                <p>Snake and Food</p>
+                <button id="playgamethree">Play Game 3</button>
+            </div>
+            <div class="game-card">
+                <img src="game3-thumbnail.jpg" alt="Game 2">
+                <p>Food Memory Match</p>
+                <button id="playgamefour">Play Game 4</button>
+            </div>
+            
+           
+            
+           
+            <!-- More games -->
+        </div>
+    </section>
+</div>
+    
+<section class="badges">
+    <h2>YOUR BADGES</h2>
+    <div class="badge-container">
+        <div class="badge gold <%= badge === 'Gold' ? 'highlight' : '' %>">
+            <img src="gold-badge.png" alt="Gold Badge">
+            <h3>Gold Badge</h3>
+            <p>Donation: 100000kg + 50000 Points</p>
+            <p>Congratulations! You have made a significant impact.</p>
+        </div>
+
+        <div class="badge silver <%= badge === 'Silver' ? 'highlight' : '' %>">
+            <img src="silver-badge.png" alt="Silver Badge">
+            <h3>Silver Badge</h3>
+            <p>Donation: 90000kg Meals + 30000 Points</p>
+            <p>Thank you for your generous support!</p>
+        </div>
+
+        <div class="badge bronze <%= badge === 'Bronze' ? 'highlight' : '' %>">
+            <img src="bronze-badge.png" alt="Bronze Badge">
+            <h3>Bronze Badge</h3>
+            <p>Donation: 80000 Meals + 20000 Points</p>
+            <p>Keep up the great work!</p>
+        </div>
+    </div>
+</section>
+
+    
+      <section class="meal-of-happiness">
+        <h2>Meal of Happiness</h2>
+        <p>As a Gold Badge holder, you have earned the privilege to receive  Meal of Happiness as a reward</p>
+        <button class="donate-meal-btn" onclick="window.location.href='/mealreward'">Grab Meal of Happiness</button>
+
+      </section>
+    
+      <section class="event-invitation">
+        <h2>Exclusive Event Invitation</h2>
+        <p>Gold Badge holders are invited to our exclusive Food Donor Concert & Drive as honored guests!</p>
+        <button class="invitation-btn" onclick="window.location.href='/eventinvite'">RSVP to Event</button>
+      </section>
+    
+      <footer>
+        <ul class="footer-links">
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/privacypolicy">Privacy Policy</a></li>
+            <li><a href="/contactus">Contact Us</a></li>
+            <li><a href="/termsofservice">Terms & Conditions</a></li>
+        </ul>
+        <div class="social-media">
+            <a href="https://www.facebook.com/domsfoodmission/"><i class="fa-brands fa-facebook"></i></a>
+        <a href="https://en.wikipedia.org/wiki/Twitter"><i class="fa-brands fa-twitter"></i></a>
+        <a href="https://www.instagram.com/donateameal_/?hl=en"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://findfoodsupport.withgoogle.com/nonprofit-resources/"><i class="fa-brands fa-google-plus"></i></a>
+        <a href="https://www.youtube.com/watch?v=sU6sglkD3MU"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+    </footer>
+    
+    <!-- Inside the same EJS file where the button is -->
+<script>
+    document.getElementById("playgameone").addEventListener("click", function() {
+        window.location.href = "/gameone"; // Redirect to the gameone route
+    });
+</script>
+<script>
+    document.getElementById("playgametwo").addEventListener("click", function() {
+        window.location.href = "/gametwo"; // Redirect to the gameone route
+    });
+</script>
+<script>
+    document.getElementById("playgamethree").addEventListener("click", function() {
+        window.location.href = "/gamethree"; // Redirect to the gameone route
+    });
+</script>
+<script>
+    document.getElementById("playgamefour").addEventListener("click", function() {
+        window.location.href = "/gamefour"; // Redirect to the gameone route
+    });
+</script>
+
+
+
+
+</body>
+</html>
