@@ -4,6 +4,9 @@ A full-stack web application that connects food donors with those in need, built
 
 ---
 
+<img width="950" alt="image" src="https://github.com/user-attachments/assets/83784acf-75c8-4fa2-8733-15538b251cfd" />
+
+
 ## 🚀 Features
 
 - 🔐 User Registration & Login
